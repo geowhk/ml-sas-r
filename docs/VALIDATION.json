@@ -23,7 +23,8 @@
     "elapsed_seconds": 3.009
   },
   "not_tested": [
-    "Windows/Linux installations",
+    "Windows R CMD check and full regression suite",
+    "Linux installations",
     "Full-scale paper simulation through the new package",
     "Independent Python implementation"
   ],
@@ -42,5 +43,31 @@
   "maintainer": {
     "name": "Woohyung Kim",
     "email": "whk3423@snu.ac.kr"
+  },
+  "windows_user_check": {
+    "date": "2026-10-01",
+    "evidence": "User reported all supplied installation and example commands completed without errors and supplied sessionInfo().",
+    "R": "4.5.1 (2025-06-13 ucrt)",
+    "platform": "x86_64-w64-mingw32/x64",
+    "OS": "Windows 10 x64 (build 19045)",
+    "locale": "Korean_Korea.utf8; LC_NUMERIC=C",
+    "timezone": "Asia/Seoul",
+    "package": "mlsas 0.1.0",
+    "dependencies": {
+      "sf": "1.1-3",
+      "spdep": "1.4-2",
+      "randomForest": "4.7-1.2",
+      "Matrix": "1.7-6",
+      "s2": "1.1.9",
+      "units": "0.8-7"
+    },
+    "scope": [
+      "GitHub installation",
+      "Mixed example with 100 trees and 999 permutations",
+      "Summary, local results and map output",
+      "One-worker and two-worker execution"
+    ],
+    "serial_parallel_comparison": "Comparison command ran without reported errors; literal all.equal() result was not supplied.",
+    "R_CMD_check": "Not run on Windows; this is a user-reported smoke test."
   }
 }

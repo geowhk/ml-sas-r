@@ -22,7 +22,8 @@ install.packages(c("randomForest", "Matrix", "sf", "spdep"))
 install.packages(file.choose(), repos = NULL, type = "source")
 ```
 
-R >= 4.2 is required. The checked environment is macOS arm64 with R 4.5.2.
+R >= 4.2 is required. Full package checks passed on macOS arm64 with R 4.5.2.
+A user-run installation and example check also passed on Windows 10 x64 with R 4.5.1.
 Spatial dependencies may need system libraries when installed from source.
 The package has not been submitted to CRAN.
 
@@ -84,7 +85,10 @@ The local `R CMD check` completed with **0 errors, 0 warnings and 0 notes**.
 Tests cover exact enumeration on a small example, paper-engine numerical
 comparisons, input alignment, spatial options, inference choices and
 serial/parallel proximity equality. See [validation](docs/VALIDATION.json).
-Windows/Linux installations have not yet been checked.
+On Windows 10 x64 (build 19045), R 4.5.1, the maintainer reported successful
+installation, a small mixed-data example (100 trees, 999 permutations), summary/map
+output and one-/two-worker execution. This user-run check is separate from
+`R CMD check`; the full Windows regression suite and Linux installation remain untested.
 
 Version 0.1.0 uses dense similarity matrices and supports at most 31 nominal
 factor levels. Missing/constant attributes and isolated regions are rejected
