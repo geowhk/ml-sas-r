@@ -1,0 +1,10 @@
+Path extraction and sparse path-Jaccard functions derive from the preserved
+02_revision-simulation/R/mlsas_optimized.R in the ML-SAS research repository.
+Those functions are retained in R/path_engine.R. Addcl1 and normalization follow
+the empirical pipeline. Total inference follows 05_empirical-study/R/mlsas_inference.R;
+conditional inference follows rerun_conditional_local_inference.R. Package wrappers,
+streaming accumulation, input validation, spatial constructors, documentation and
+small teaching examples were added for this release. The source paper and
+frozen research snapshot were not changed. Package examples are small synthetic teaching datasets.
+Project code is distributed under MIT. Upstream R dependencies retain their own
+licenses. No dependency code or original DGP-generation source is vendored.

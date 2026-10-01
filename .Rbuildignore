@@ -1,0 +1,6 @@
+^docs$
+^downloads$
+^examples$
+^LICENSE\.md$
+^\.git$
+^\.gitignore$

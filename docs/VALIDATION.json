@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-01",
+  "version": "0.1.0",
+  "R": "4.5.2",
+  "platform": "macOS arm64",
+  "R_CMD_check": {
+    "errors": 0,
+    "warnings": 0,
+    "notes": 0,
+    "status": "OK"
+  },
+  "standard_PDF_manual": "PASS; 12 pages, generated with R tools and visually inspected",
+  "installed_examples_and_vignette": "PASS",
+  "exact_permutation_tests": "PASS; all 24 arrangements of a four-region example, total and focal-conditional",
+  "reference_comparison": "PASS; mixed 32-tree similarity against research engine, statistics and 511 fixed global/total-local permutations, tolerance 1e-12",
+  "input_routes_and_options": "PASS; sf, separate table+sf with reversed IDs, table+weights; queen/rook, point distance/knn, transforms, alternative tails, adjustment methods",
+  "parallel_similarity": "PASS; serial and two PSOCK workers",
+  "default_example": {
+    "status": "PASS",
+    "regions": 36,
+    "ntree": 1000,
+    "nperm": 99999,
+    "elapsed_seconds": 3.009
+  },
+  "not_tested": [
+    "Windows/Linux installations",
+    "Full-scale paper simulation through the new package",
+    "Independent Python implementation"
+  ],
+  "limitations": [
+    "Dense n by n similarity",
+    "At most 31 nominal factor levels",
+    "Missing/constant attributes and isolated regions rejected",
+    "Parallelism applies to proximity calculation only; fitting/inference serial",
+    "No analytic normal-approximation test"
+  ],
+  "publication": "GitHub distribution: https://github.com/geowhk/ML-SAS-R; not submitted to CRAN",
+  "authors": [
+    "Woohyung Kim",
+    "Sang-Il Lee"
+  ],
+  "maintainer": {
+    "name": "Woohyung Kim",
+    "email": "whk3423@snu.ac.kr"
+  }
+}

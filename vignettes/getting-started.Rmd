@@ -1,0 +1,108 @@
+---
+title: "Getting Started with ML-SAS"
+author: "Woohyung Kim and Sang-Il Lee"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with ML-SAS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse=TRUE, comment="#>")
+library(mlsas)
+```
+
+## A small complete analysis
+
+This vignette uses 36 synthetic
+regions, 20 trees and 199 draws for speed. These are explicit teaching settings,
+not evidence of adequate inferential precision. The defaults are 1,000 trees,
+99,999 draws, path proximity, total global and conditional local randomization,
+two-sided inference and BH adjustment at 0.05.
+
+```{r}
+d <- mlsas_example("mixed")
+str(d$attributes)
+fit <- mlsas(d$data, variables=d$variables, id=d$id,
+             ntree=20, nperm=199, seed=2026,
+             verbose=FALSE, progress=FALSE)
+summary(fit)
+head(as.data.frame(fit$local))
+```
+
+```{r map, fig.width=6, fig.height=5}
+plot(fit)
+```
+
+Significant statistics above the conditional permutation mean are similarity
+clusters; those below it are dissimilarity/outliers. These labels are not
+univariate High-High or Low-Low categories. Non-significance is not proof of absence.
+With B draws the minimum one-sided Monte Carlo p-value is 1/(B+1), and the minimum
+for the implemented doubled-tail two-sided rule is 2/(B+1). BH adjustment may
+require substantially more draws than a short example provides.
+
+## Three input routes
+
+An sf object contains attributes and geometry. Select analysis variables explicitly;
+IDs and geometry never become forest attributes. Separate tables are joined by ID,
+not by row order. ID sets must match exactly; no row is silently dropped.
+
+```{r}
+fit_separate <- mlsas(d$attributes, d$variables, d$id,
+  spatial=d$spatial[nrow(d$spatial):1,], ntree=20, nperm=199,
+  seed=2026, verbose=FALSE, progress=FALSE)
+stopifnot(identical(fit$similarity, fit_separate$similarity) ||
+          isTRUE(all.equal(unname(as.vector(fit$similarity)),
+                           unname(as.vector(fit_separate$similarity)))))
+w_rook <- mlsas_weights(d$data, id=d$id, contiguity="rook")
+fit_weights <- mlsas(d$attributes, d$variables, d$id, weights=w_rook,
+  ntree=20, nperm=199, seed=2026, verbose=FALSE, progress=FALSE)
+```
+
+Attributes may be a data.frame or tibble. Numeric columns are continuous;
+factor columns are nominal; ordered factors retain their declared order. Convert
+character categories explicitly. Missing or constant attributes are rejected.
+Nominal factors are limited to 31 levels in this release. Geometry must be valid.
+
+## Reuse the learned representation
+
+```{r}
+s <- fit$similarity
+o <- mlsas_stat(s, w_rook)
+upper <- mlsas_local_test(o, alternative="greater", nperm=199,
+                         seed=8, verbose=FALSE, progress=FALSE)
+head(as.data.frame(upper))
+```
+
+The forest is not refitted during permutation inference. Global inference jointly
+relabels rows and columns; local conditional inference fixes the focal profile.
+Total local inference is available with `randomization="total"`. The two schemes
+answer different randomization questions. Adjustment applies to the current set
+of input regions, not across multiple fitted specifications.
+
+## Spatial choices and execution
+
+Queen and rook require polygons. Distance and nearest-neighbour weights require
+POINT sf geometry with a known CRS; explicitly choose representative points for
+polygons. Distance thresholds use `sf::st_distance` units. Nearest-neighbour
+symmetrization is `union`, `mutual` or `none`. Isolated regions produce an error.
+Use `mlsas_weights` first for these advanced choices. Supplied weights are not
+silently standardized again by the integrated function.
+
+`verbose=TRUE` announces stages and measured time. `progress=interactive()` shows
+completed tree/permutation work in interactive R. Forest fitting reports running;
+there is no invented percent or ETA. `workers=2` parallelizes proximity calculation,
+not fitting or inference. Use one worker when process spawning is unavailable.
+A supplied seed restores the caller's RNG state after the call. The integrated
+function consumes a single stream through fitting and both tests; separate calls
+with their own seeds are not expected to reproduce that exact stream automatically.
+
+## Resources and paper reproduction
+
+Similarity storage is quadratic in region count. Tests stream 256-draw batches;
+`keep=TRUE` stores the full distribution and uses additional memory. A fixed seed
+alone does not guarantee equality across engines, languages or package versions.
+The paper's full simulation campaign ran on AWS. This small example does not
+reproduce that campaign. See the repository reproduction documentation for full
+settings, archived runtimes and completed validation scope.
