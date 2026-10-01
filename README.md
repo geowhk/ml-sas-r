@@ -1,6 +1,6 @@
 # ML-SAS for R
 
-**Machine Learning Spatial Association Statistics** for continuous, categorical
+**A Machine-Learning-Based Spatial Autocorrelation Statistic** for continuous, categorical
 and mixed spatial data. Learn attribute similarity with an unsupervised random
 forest, compute global and local ML-SAS, and perform permutation inference.
 
