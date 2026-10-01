@@ -1,37 +1,27 @@
 # ML-SAS for R
 
-**A Machine-Learning-Based Spatial Autocorrelation Statistic** for continuous, categorical
-and mixed spatial data. Learn attribute similarity with an unsupervised random
-forest, compute global and local ML-SAS, and perform permutation inference.
+**A Machine-Learning-Based Spatial Autocorrelation Statistic** for continuous,
+categorical and mixed spatial data. Compute global and local ML-SAS and perform
+permutation tests using similarity learned by an unsupervised random forest.
 
-Authors: **Woohyung Kim and Sang-Il Lee**  
-Maintainer: **Woohyung Kim** — whk3423@snu.ac.kr
+## Installation
 
-## Install
-
-```r
-install.packages("remotes") # once, if needed
-remotes::install_github("geowhk/ML-SAS-R", upgrade = "never")
-```
-
-Alternatively, download [mlsas_0.1.0.tar.gz](downloads/mlsas_0.1.0.tar.gz),
-install missing dependencies, and select that file:
+Requires R 4.2 or later.
 
 ```r
-install.packages(c("randomForest", "Matrix", "sf", "spdep"))
-install.packages(file.choose(), repos = NULL, type = "source")
+install.packages("remotes") # if needed
+remotes::install_github("geowhk/ml-sas-r", upgrade = "never")
 ```
-
-R >= 4.2 is required. Full package checks passed on macOS arm64 with R 4.5.2.
-A user-run installation and example check also passed on Windows 10 x64 with R 4.5.1.
-Spatial dependencies may need system libraries when installed from source.
-The package has not been submitted to CRAN.
 
 ## Quick start
 
 ```r
 library(mlsas)
+
+# Small example dataset with attributes and geometry
 d <- mlsas_example("mixed")
+
+# Reduced tree and permutation counts for a quick first run
 fit <- mlsas(
   data = d$data,
   variables = d$variables,
@@ -40,69 +30,42 @@ fit <- mlsas(
   nperm = 999,
   seed = 2026
 )
+
 summary(fit)
 head(as.data.frame(fit$local))
 plot(fit)
 ```
 
-This small example explicitly reduces tree and permutation counts. Function
-defaults follow the empirical analysis: 1,000 trees, path proximity, queen
-contiguity with row-standardized weights, 99,999 permutations, total global
-and conditional local randomization, two-sided tests and BH adjustment at 0.05.
-Choose permutation counts appropriate to the desired p-value resolution.
+Without overrides, the functions use the paper's empirical-analysis settings,
+including 1,000 trees, 99,999 permutations and queen contiguity. Change only the
+arguments you need; see the manual for all defaults and options. Large datasets
+can require substantial time and memory. Use `progress = TRUE` to display progress.
 
-## Input choices
+## Your data
+
+Choose one of three input forms:
 
 - An `sf` object containing attributes and geometry: `data`.
-- A data.frame/tibble plus separate `sf`: `data` and `spatial`.
-- An attribute table plus an ID-labelled weight matrix: `data` and `weights`.
+- A data frame or tibble with separate `sf` geometry: `data` and `spatial`.
+- An attribute table with a spatial weight matrix: `data` and `weights`.
 
-Select attributes explicitly with `variables`; connect regions using `id`.
-Numeric, nominal factor and ordered-factor attributes are supported. Separate
-inputs are aligned by ID. IDs and geometry do not enter forest training.
-
-Weights support queen/rook polygons, distance or nearest-neighbour points, and
-supplied matrices. Inference supports conditional/total local randomization,
-one- or two-sided alternatives and standard p-value adjustment methods.
-Use `verbose` and `progress` to control execution messages and progress bars.
+Specify attribute columns with `variables` and a unique region identifier with
+`id`. Separate inputs are matched by ID; supplied weight matrices must have
+matching row and column IDs. Attributes may be numeric, nominal factors or
+ordered factors. Missing values, constant attributes and regions without
+neighbours must be resolved before analysis; nominal factors support up to 31 levels.
 
 ## Documentation
 
 - [PDF reference manual](docs/mlsas-reference-manual.pdf)
 - [Getting started tutorial](vignettes/getting-started.Rmd)
-- [Rendered tutorial](docs/getting-started.html) — download and open in a browser
 - [Example R script](examples/quickstart.R)
-- R help: `?mlsas`, `?mlsas_weights`, `?mlsas_local_test`
+- In R: `?mlsas`
 
-To install the in-R vignette as well, use
-`remotes::install_github("geowhk/ML-SAS-R", upgrade="never", build_vignettes=TRUE)`
-with knitr, rmarkdown and Pandoc available. The source archive above already
-includes the rendered vignette.
+## Authors and license
 
-## Validation and scope
+Woohyung Kim and Sang-Il Lee.
 
-The local `R CMD check` completed with **0 errors, 0 warnings and 0 notes**.
-Tests cover exact enumeration on a small example, paper-engine numerical
-comparisons, input alignment, spatial options, inference choices and
-serial/parallel proximity equality. See [validation](docs/VALIDATION.json).
-On Windows 10 x64 (build 19045), R 4.5.1, the maintainer reported successful
-installation, a small mixed-data example (100 trees, 999 permutations), summary/map
-output and one-/two-worker execution. This user-run check is separate from
-`R CMD check`; the full Windows regression suite and Linux installation remain untested.
+Contact: whk3423@snu.ac.kr
 
-Version 0.1.0 uses dense similarity matrices and supports at most 31 nominal
-factor levels. Missing/constant attributes and isolated regions are rejected
-with explicit errors. Multiprocessing applies to proximity calculation;
-forest fitting and permutation inference are serial.
-
-## Related work
-
-The accompanying paper has been accepted for publication. Its DOI and complete
-citation will be added when available. The planned **ML-SAS-paper** repository
-will contain the full paper-reproduction workflow and will be linked here after
-publication. This repository contains the R package, examples and documentation.
-The original DGP-generation source is excluded. A Python implementation is planned.
-
-## License
-
-MIT; see [LICENSE.md](LICENSE.md). Dependencies retain their own licenses.
+[MIT license](LICENSE.md).
