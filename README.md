@@ -58,7 +58,7 @@ neighbours must be resolved before analysis; nominal factors support up to 31 le
 ## Documentation
 
 - [PDF reference manual](docs/mlsas-reference-manual.pdf)
-- [Getting started tutorial](vignettes/getting-started.Rmd)
+- [Getting started tutorial](https://geowhk.github.io/ml-sas-r/getting-started.html)
 - [Example R script](examples/quickstart.R)
 - In R: `?mlsas`
 

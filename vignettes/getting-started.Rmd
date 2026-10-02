@@ -13,6 +13,14 @@ knitr::opts_chunk$set(collapse=TRUE, comment="#>")
 library(mlsas)
 ```
 
+ML-SAS implements **A Machine-Learning-Based Spatial Autocorrelation Statistic**.
+
+```{r, eval=FALSE}
+install.packages("remotes") # if needed
+remotes::install_github("geowhk/ml-sas-r", upgrade="never")
+library(mlsas)
+```
+
 ## A small complete analysis
 
 This vignette uses 36 synthetic
@@ -104,5 +112,4 @@ Similarity storage is quadratic in region count. Tests stream 256-draw batches;
 `keep=TRUE` stores the full distribution and uses additional memory. A fixed seed
 alone does not guarantee equality across engines, languages or package versions.
 The paper's full simulation campaign ran on AWS. This small example does not
-reproduce that campaign. See the repository reproduction documentation for full
-settings, archived runtimes and completed validation scope.
+reproduce that campaign. The paper-reproduction repository will be linked separately when available.

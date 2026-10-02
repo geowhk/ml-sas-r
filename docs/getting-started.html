@@ -342,6 +342,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
+<p>ML-SAS implements <strong>A Machine-Learning-Based Spatial
+Autocorrelation Statistic</strong>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>) <span class="co"># if needed</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;geowhk/ml-sas-r&quot;</span>, <span class="at">upgrade=</span><span class="st">&quot;never&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(mlsas)</span></code></pre></div>
 <div id="a-small-complete-analysis" class="section level2">
 <h2>A small complete analysis</h2>
 <p>This vignette uses 36 synthetic regions, 20 trees and 199 draws for
@@ -349,130 +354,130 @@ speed. These are explicit teaching settings, not evidence of adequate
 inferential precision. The defaults are 1,000 trees, 99,999 draws, path
 proximity, total global and conditional local randomization, two-sided
 inference and BH adjustment at 0.05.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">mlsas_example</span>(<span class="st">&quot;mixed&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">str</span>(d<span class="sc">$</span>attributes)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    36 obs. of  5 variables:</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt;  $ region_id: chr  &quot;area_01&quot; &quot;area_02&quot; &quot;area_03&quot; &quot;area_04&quot; ...</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt;  $ x1       : num  1.008 1.076 0.308 -0.59 -0.792 ...</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt;  $ x2       : num  0.707 0.874 1.04 1.207 1.374 ...</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt;  $ category : Factor w/ 2 levels &quot;A&quot;,&quot;B&quot;: 1 1 1 2 2 2 1 1 1 2 ...</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt;  $ ordered  : Ord.factor w/ 3 levels &quot;low&quot;&lt;&quot;medium&quot;&lt;..: 1 1 1 1 1 1 1 1 1 1 ...</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">mlsas</span>(d<span class="sc">$</span>data, <span class="at">variables=</span>d<span class="sc">$</span>variables, <span class="at">id=</span>d<span class="sc">$</span>id,</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>             <span class="at">ntree=</span><span class="dv">20</span>, <span class="at">nperm=</span><span class="dv">199</span>, <span class="at">seed=</span><span class="dv">2026</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>             <span class="at">verbose=</span><span class="cn">FALSE</span>, <span class="at">progress=</span><span class="cn">FALSE</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#&gt; $global</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#&gt;       id statistic permutation_mean permutation_sd p_high p_low p_value</span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#&gt; 1 global  1.694244         1.004152     0.04585724  0.005     1    0.01</span></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#&gt;   p_adjusted     classification</span></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#&gt; 1       0.01 Similarity cluster</span></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">#&gt; $local_classification</span></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="co">#&gt;    Not significant Similarity cluster </span></span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co">#&gt;                  4                 32 </span></span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="co">#&gt; $settings</span></span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="co">#&gt; $settings$seed</span></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="co">#&gt; [1] 2026</span></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co">#&gt; $settings$variables</span></span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="co">#&gt; [1] &quot;x1&quot;       &quot;x2&quot;       &quot;category&quot; &quot;ordered&quot; </span></span>
-<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="co">#&gt; $settings$id</span></span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="co">#&gt; [1] &quot;region_id&quot;</span></span>
-<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="co">#&gt; $settings$workers</span></span>
-<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="co">#&gt; $settings$version</span></span>
-<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="co">#&gt; [1] &quot;0.1.0&quot;</span></span>
-<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="co">#&gt; $settings$R</span></span>
-<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="co">#&gt; [1] &quot;R version 4.5.2 (2025-10-31)&quot;</span></span>
-<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="co">#&gt; $settings$RNGkind</span></span>
-<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mersenne-Twister&quot; &quot;Inversion&quot;        &quot;Rejection&quot;       </span></span>
-<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a><span class="co">#&gt; $similarity</span></span>
-<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="co">#&gt; $similarity$proximity</span></span>
-<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a><span class="co">#&gt; [1] &quot;path&quot;</span></span>
-<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a><span class="co">#&gt; $similarity$ntree</span></span>
-<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span>
-<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a><span class="co">#&gt; $similarity$mtry</span></span>
-<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb1-56"><a href="#cb1-56" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-57"><a href="#cb1-57" tabindex="-1"></a><span class="co">#&gt; $similarity$nodesize</span></span>
-<span id="cb1-58"><a href="#cb1-58" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb1-59"><a href="#cb1-59" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-60"><a href="#cb1-60" tabindex="-1"></a><span class="co">#&gt; $similarity$seed</span></span>
-<span id="cb1-61"><a href="#cb1-61" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
-<span id="cb1-62"><a href="#cb1-62" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-63"><a href="#cb1-63" tabindex="-1"></a><span class="co">#&gt; $similarity$workers</span></span>
-<span id="cb1-64"><a href="#cb1-64" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb1-65"><a href="#cb1-65" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-66"><a href="#cb1-66" tabindex="-1"></a><span class="co">#&gt; $similarity$engine</span></span>
-<span id="cb1-67"><a href="#cb1-67" tabindex="-1"></a><span class="co">#&gt; [1] &quot;4.7.1.2&quot;</span></span>
-<span id="cb1-68"><a href="#cb1-68" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-69"><a href="#cb1-69" tabindex="-1"></a><span class="co">#&gt; $similarity$elapsed</span></span>
-<span id="cb1-70"><a href="#cb1-70" tabindex="-1"></a><span class="co">#&gt; [1] 0.247</span></span>
-<span id="cb1-71"><a href="#cb1-71" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-72"><a href="#cb1-72" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-73"><a href="#cb1-73" tabindex="-1"></a><span class="co">#&gt; $inference</span></span>
-<span id="cb1-74"><a href="#cb1-74" tabindex="-1"></a><span class="co">#&gt; $inference$scope</span></span>
-<span id="cb1-75"><a href="#cb1-75" tabindex="-1"></a><span class="co">#&gt; [1] &quot;local&quot;</span></span>
-<span id="cb1-76"><a href="#cb1-76" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-77"><a href="#cb1-77" tabindex="-1"></a><span class="co">#&gt; $inference$randomization</span></span>
-<span id="cb1-78"><a href="#cb1-78" tabindex="-1"></a><span class="co">#&gt; [1] &quot;conditional&quot;</span></span>
-<span id="cb1-79"><a href="#cb1-79" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-80"><a href="#cb1-80" tabindex="-1"></a><span class="co">#&gt; $inference$alternative</span></span>
-<span id="cb1-81"><a href="#cb1-81" tabindex="-1"></a><span class="co">#&gt; [1] &quot;two.sided&quot;</span></span>
-<span id="cb1-82"><a href="#cb1-82" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-83"><a href="#cb1-83" tabindex="-1"></a><span class="co">#&gt; $inference$nperm</span></span>
-<span id="cb1-84"><a href="#cb1-84" tabindex="-1"></a><span class="co">#&gt; [1] 199</span></span>
-<span id="cb1-85"><a href="#cb1-85" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-86"><a href="#cb1-86" tabindex="-1"></a><span class="co">#&gt; $inference$alpha</span></span>
-<span id="cb1-87"><a href="#cb1-87" tabindex="-1"></a><span class="co">#&gt; [1] 0.05</span></span>
-<span id="cb1-88"><a href="#cb1-88" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-89"><a href="#cb1-89" tabindex="-1"></a><span class="co">#&gt; $inference$p_adjust</span></span>
-<span id="cb1-90"><a href="#cb1-90" tabindex="-1"></a><span class="co">#&gt; [1] &quot;BH&quot;</span></span>
-<span id="cb1-91"><a href="#cb1-91" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-92"><a href="#cb1-92" tabindex="-1"></a><span class="co">#&gt; $inference$seed</span></span>
-<span id="cb1-93"><a href="#cb1-93" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
-<span id="cb1-94"><a href="#cb1-94" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-95"><a href="#cb1-95" tabindex="-1"></a><span class="co">#&gt; $inference$explicit_permutations</span></span>
-<span id="cb1-96"><a href="#cb1-96" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span>
-<span id="cb1-97"><a href="#cb1-97" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-98"><a href="#cb1-98" tabindex="-1"></a><span class="co">#&gt; $inference$elapsed</span></span>
-<span id="cb1-99"><a href="#cb1-99" tabindex="-1"></a><span class="co">#&gt; [1] 0.001</span></span>
-<span id="cb1-100"><a href="#cb1-100" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-101"><a href="#cb1-101" tabindex="-1"></a><span class="co">#&gt; $inference$R</span></span>
-<span id="cb1-102"><a href="#cb1-102" tabindex="-1"></a><span class="co">#&gt; [1] &quot;R version 4.5.2 (2025-10-31)&quot;</span></span>
-<span id="cb1-103"><a href="#cb1-103" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-104"><a href="#cb1-104" tabindex="-1"></a><span class="co">#&gt; $inference$RNGkind</span></span>
-<span id="cb1-105"><a href="#cb1-105" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mersenne-Twister&quot; &quot;Inversion&quot;        &quot;Rejection&quot;       </span></span>
-<span id="cb1-106"><a href="#cb1-106" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb1-107"><a href="#cb1-107" tabindex="-1"></a><span class="co">#&gt; $inference$version</span></span>
-<span id="cb1-108"><a href="#cb1-108" tabindex="-1"></a><span class="co">#&gt; [1] &quot;0.1.0&quot;</span></span>
-<span id="cb1-109"><a href="#cb1-109" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(fit<span class="sc">$</span>local))</span>
-<span id="cb1-110"><a href="#cb1-110" tabindex="-1"></a><span class="co">#&gt;        id statistic permutation_mean permutation_sd p_high p_low p_value</span></span>
-<span id="cb1-111"><a href="#cb1-111" tabindex="-1"></a><span class="co">#&gt; 1 area_01  2.003910        1.0572564      0.2544742  0.005 1.000    0.01</span></span>
-<span id="cb1-112"><a href="#cb1-112" tabindex="-1"></a><span class="co">#&gt; 2 area_02  1.993919        1.0631475      0.1956895  0.005 1.000    0.01</span></span>
-<span id="cb1-113"><a href="#cb1-113" tabindex="-1"></a><span class="co">#&gt; 3 area_03  1.341305        0.9434497      0.1189817  0.010 0.995    0.02</span></span>
-<span id="cb1-114"><a href="#cb1-114" tabindex="-1"></a><span class="co">#&gt; 4 area_04  1.672986        0.8766867      0.2057443  0.005 1.000    0.01</span></span>
-<span id="cb1-115"><a href="#cb1-115" tabindex="-1"></a><span class="co">#&gt; 5 area_05  1.585153        0.8043679      0.1600967  0.005 1.000    0.01</span></span>
-<span id="cb1-116"><a href="#cb1-116" tabindex="-1"></a><span class="co">#&gt; 6 area_06  1.196260        0.7698916      0.1584672  0.010 1.000    0.02</span></span>
-<span id="cb1-117"><a href="#cb1-117" tabindex="-1"></a><span class="co">#&gt;   p_adjusted     classification</span></span>
-<span id="cb1-118"><a href="#cb1-118" tabindex="-1"></a><span class="co">#&gt; 1 0.01333333 Similarity cluster</span></span>
-<span id="cb1-119"><a href="#cb1-119" tabindex="-1"></a><span class="co">#&gt; 2 0.01333333 Similarity cluster</span></span>
-<span id="cb1-120"><a href="#cb1-120" tabindex="-1"></a><span class="co">#&gt; 3 0.02322581 Similarity cluster</span></span>
-<span id="cb1-121"><a href="#cb1-121" tabindex="-1"></a><span class="co">#&gt; 4 0.01333333 Similarity cluster</span></span>
-<span id="cb1-122"><a href="#cb1-122" tabindex="-1"></a><span class="co">#&gt; 5 0.01333333 Similarity cluster</span></span>
-<span id="cb1-123"><a href="#cb1-123" tabindex="-1"></a><span class="co">#&gt; 6 0.02322581 Similarity cluster</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">plot</span>(fit)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">mlsas_example</span>(<span class="st">&quot;mixed&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">str</span>(d<span class="sc">$</span>attributes)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    36 obs. of  5 variables:</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;  $ region_id: chr  &quot;area_01&quot; &quot;area_02&quot; &quot;area_03&quot; &quot;area_04&quot; ...</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt;  $ x1       : num  1.008 1.076 0.308 -0.59 -0.792 ...</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt;  $ x2       : num  0.707 0.874 1.04 1.207 1.374 ...</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt;  $ category : Factor w/ 2 levels &quot;A&quot;,&quot;B&quot;: 1 1 1 2 2 2 1 1 1 2 ...</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;  $ ordered  : Ord.factor w/ 3 levels &quot;low&quot;&lt;&quot;medium&quot;&lt;..: 1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">mlsas</span>(d<span class="sc">$</span>data, <span class="at">variables=</span>d<span class="sc">$</span>variables, <span class="at">id=</span>d<span class="sc">$</span>id,</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>             <span class="at">ntree=</span><span class="dv">20</span>, <span class="at">nperm=</span><span class="dv">199</span>, <span class="at">seed=</span><span class="dv">2026</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>             <span class="at">verbose=</span><span class="cn">FALSE</span>, <span class="at">progress=</span><span class="cn">FALSE</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; $global</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;       id statistic permutation_mean permutation_sd p_high p_low p_value</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; 1 global  1.694244         1.004152     0.04585724  0.005     1    0.01</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;   p_adjusted     classification</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; 1       0.01 Similarity cluster</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; $local_classification</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt;    Not significant Similarity cluster </span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt;                  4                 32 </span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt; $settings</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt; $settings$seed</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt; [1] 2026</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; $settings$variables</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt; [1] &quot;x1&quot;       &quot;x2&quot;       &quot;category&quot; &quot;ordered&quot; </span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co">#&gt; $settings$id</span></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co">#&gt; [1] &quot;region_id&quot;</span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="co">#&gt; $settings$workers</span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a><span class="co">#&gt; $settings$version</span></span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="co">#&gt; [1] &quot;0.1.1&quot;</span></span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a><span class="co">#&gt; $settings$R</span></span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a><span class="co">#&gt; [1] &quot;R version 4.5.2 (2025-10-31)&quot;</span></span>
+<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a><span class="co">#&gt; $settings$RNGkind</span></span>
+<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mersenne-Twister&quot; &quot;Inversion&quot;        &quot;Rejection&quot;       </span></span>
+<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-47"><a href="#cb2-47" tabindex="-1"></a><span class="co">#&gt; $similarity</span></span>
+<span id="cb2-48"><a href="#cb2-48" tabindex="-1"></a><span class="co">#&gt; $similarity$proximity</span></span>
+<span id="cb2-49"><a href="#cb2-49" tabindex="-1"></a><span class="co">#&gt; [1] &quot;path&quot;</span></span>
+<span id="cb2-50"><a href="#cb2-50" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-51"><a href="#cb2-51" tabindex="-1"></a><span class="co">#&gt; $similarity$ntree</span></span>
+<span id="cb2-52"><a href="#cb2-52" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span>
+<span id="cb2-53"><a href="#cb2-53" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-54"><a href="#cb2-54" tabindex="-1"></a><span class="co">#&gt; $similarity$mtry</span></span>
+<span id="cb2-55"><a href="#cb2-55" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb2-56"><a href="#cb2-56" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-57"><a href="#cb2-57" tabindex="-1"></a><span class="co">#&gt; $similarity$nodesize</span></span>
+<span id="cb2-58"><a href="#cb2-58" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb2-59"><a href="#cb2-59" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-60"><a href="#cb2-60" tabindex="-1"></a><span class="co">#&gt; $similarity$seed</span></span>
+<span id="cb2-61"><a href="#cb2-61" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
+<span id="cb2-62"><a href="#cb2-62" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-63"><a href="#cb2-63" tabindex="-1"></a><span class="co">#&gt; $similarity$workers</span></span>
+<span id="cb2-64"><a href="#cb2-64" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb2-65"><a href="#cb2-65" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-66"><a href="#cb2-66" tabindex="-1"></a><span class="co">#&gt; $similarity$engine</span></span>
+<span id="cb2-67"><a href="#cb2-67" tabindex="-1"></a><span class="co">#&gt; [1] &quot;4.7.1.2&quot;</span></span>
+<span id="cb2-68"><a href="#cb2-68" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-69"><a href="#cb2-69" tabindex="-1"></a><span class="co">#&gt; $similarity$elapsed</span></span>
+<span id="cb2-70"><a href="#cb2-70" tabindex="-1"></a><span class="co">#&gt; [1] 0.248</span></span>
+<span id="cb2-71"><a href="#cb2-71" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-72"><a href="#cb2-72" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-73"><a href="#cb2-73" tabindex="-1"></a><span class="co">#&gt; $inference</span></span>
+<span id="cb2-74"><a href="#cb2-74" tabindex="-1"></a><span class="co">#&gt; $inference$scope</span></span>
+<span id="cb2-75"><a href="#cb2-75" tabindex="-1"></a><span class="co">#&gt; [1] &quot;local&quot;</span></span>
+<span id="cb2-76"><a href="#cb2-76" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-77"><a href="#cb2-77" tabindex="-1"></a><span class="co">#&gt; $inference$randomization</span></span>
+<span id="cb2-78"><a href="#cb2-78" tabindex="-1"></a><span class="co">#&gt; [1] &quot;conditional&quot;</span></span>
+<span id="cb2-79"><a href="#cb2-79" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-80"><a href="#cb2-80" tabindex="-1"></a><span class="co">#&gt; $inference$alternative</span></span>
+<span id="cb2-81"><a href="#cb2-81" tabindex="-1"></a><span class="co">#&gt; [1] &quot;two.sided&quot;</span></span>
+<span id="cb2-82"><a href="#cb2-82" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-83"><a href="#cb2-83" tabindex="-1"></a><span class="co">#&gt; $inference$nperm</span></span>
+<span id="cb2-84"><a href="#cb2-84" tabindex="-1"></a><span class="co">#&gt; [1] 199</span></span>
+<span id="cb2-85"><a href="#cb2-85" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-86"><a href="#cb2-86" tabindex="-1"></a><span class="co">#&gt; $inference$alpha</span></span>
+<span id="cb2-87"><a href="#cb2-87" tabindex="-1"></a><span class="co">#&gt; [1] 0.05</span></span>
+<span id="cb2-88"><a href="#cb2-88" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-89"><a href="#cb2-89" tabindex="-1"></a><span class="co">#&gt; $inference$p_adjust</span></span>
+<span id="cb2-90"><a href="#cb2-90" tabindex="-1"></a><span class="co">#&gt; [1] &quot;BH&quot;</span></span>
+<span id="cb2-91"><a href="#cb2-91" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-92"><a href="#cb2-92" tabindex="-1"></a><span class="co">#&gt; $inference$seed</span></span>
+<span id="cb2-93"><a href="#cb2-93" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
+<span id="cb2-94"><a href="#cb2-94" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-95"><a href="#cb2-95" tabindex="-1"></a><span class="co">#&gt; $inference$explicit_permutations</span></span>
+<span id="cb2-96"><a href="#cb2-96" tabindex="-1"></a><span class="co">#&gt; [1] FALSE</span></span>
+<span id="cb2-97"><a href="#cb2-97" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-98"><a href="#cb2-98" tabindex="-1"></a><span class="co">#&gt; $inference$elapsed</span></span>
+<span id="cb2-99"><a href="#cb2-99" tabindex="-1"></a><span class="co">#&gt; [1] 0.002</span></span>
+<span id="cb2-100"><a href="#cb2-100" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-101"><a href="#cb2-101" tabindex="-1"></a><span class="co">#&gt; $inference$R</span></span>
+<span id="cb2-102"><a href="#cb2-102" tabindex="-1"></a><span class="co">#&gt; [1] &quot;R version 4.5.2 (2025-10-31)&quot;</span></span>
+<span id="cb2-103"><a href="#cb2-103" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-104"><a href="#cb2-104" tabindex="-1"></a><span class="co">#&gt; $inference$RNGkind</span></span>
+<span id="cb2-105"><a href="#cb2-105" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mersenne-Twister&quot; &quot;Inversion&quot;        &quot;Rejection&quot;       </span></span>
+<span id="cb2-106"><a href="#cb2-106" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-107"><a href="#cb2-107" tabindex="-1"></a><span class="co">#&gt; $inference$version</span></span>
+<span id="cb2-108"><a href="#cb2-108" tabindex="-1"></a><span class="co">#&gt; [1] &quot;0.1.1&quot;</span></span>
+<span id="cb2-109"><a href="#cb2-109" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(fit<span class="sc">$</span>local))</span>
+<span id="cb2-110"><a href="#cb2-110" tabindex="-1"></a><span class="co">#&gt;        id statistic permutation_mean permutation_sd p_high p_low p_value</span></span>
+<span id="cb2-111"><a href="#cb2-111" tabindex="-1"></a><span class="co">#&gt; 1 area_01  2.003910        1.0572564      0.2544742  0.005 1.000    0.01</span></span>
+<span id="cb2-112"><a href="#cb2-112" tabindex="-1"></a><span class="co">#&gt; 2 area_02  1.993919        1.0631475      0.1956895  0.005 1.000    0.01</span></span>
+<span id="cb2-113"><a href="#cb2-113" tabindex="-1"></a><span class="co">#&gt; 3 area_03  1.341305        0.9434497      0.1189817  0.010 0.995    0.02</span></span>
+<span id="cb2-114"><a href="#cb2-114" tabindex="-1"></a><span class="co">#&gt; 4 area_04  1.672986        0.8766867      0.2057443  0.005 1.000    0.01</span></span>
+<span id="cb2-115"><a href="#cb2-115" tabindex="-1"></a><span class="co">#&gt; 5 area_05  1.585153        0.8043679      0.1600967  0.005 1.000    0.01</span></span>
+<span id="cb2-116"><a href="#cb2-116" tabindex="-1"></a><span class="co">#&gt; 6 area_06  1.196260        0.7698916      0.1584672  0.010 1.000    0.02</span></span>
+<span id="cb2-117"><a href="#cb2-117" tabindex="-1"></a><span class="co">#&gt;   p_adjusted     classification</span></span>
+<span id="cb2-118"><a href="#cb2-118" tabindex="-1"></a><span class="co">#&gt; 1 0.01333333 Similarity cluster</span></span>
+<span id="cb2-119"><a href="#cb2-119" tabindex="-1"></a><span class="co">#&gt; 2 0.01333333 Similarity cluster</span></span>
+<span id="cb2-120"><a href="#cb2-120" tabindex="-1"></a><span class="co">#&gt; 3 0.02322581 Similarity cluster</span></span>
+<span id="cb2-121"><a href="#cb2-121" tabindex="-1"></a><span class="co">#&gt; 4 0.01333333 Similarity cluster</span></span>
+<span id="cb2-122"><a href="#cb2-122" tabindex="-1"></a><span class="co">#&gt; 5 0.01333333 Similarity cluster</span></span>
+<span id="cb2-123"><a href="#cb2-123" tabindex="-1"></a><span class="co">#&gt; 6 0.02322581 Similarity cluster</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">plot</span>(fit)</span></code></pre></div>
 <p><img src="data:image/png;base64,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YKZM2S4te9IrUucOM7Ib1COXnJS2P+z01Na5TVZ975o/O3XffE761RU/y6rf0dlzzz033XTTTemLX/xidn0/4YQT0p2Lt0+T9j0mu76vuOa09L7/ODm99KUvza7vRx11VCO8+f//7ApXY4ddA1QjpqYIECBAgACBPAQEoDzqpJcECBAgQIBAjQICUI2YmiJAgAABAgTyEBCA8qiTXhIgQIAAAQI1CghANWJqigABAgQIEMhDQADKo056SYAAAQIECNQoIADViKkpAgQIECBAIA8BASiPOuklAQIECBAgUKOAAFQjpqYIECBAgACBPAQEoDzqpJcECBAgQIBAjQICUI2YmiJAgAABAgTyEBCA8qiTXhIgQIAAAQI1CghANWJqigABAgQIEMhDQADKo056SYAAAQIECNQoIADViKkpAgQIECBAIA8BASiPOuklAQIECBAgUKOAAFQjpqYIECBAgACBPAQEoDzqpJcECBAgQIBAjQICUI2YmiJAgAABAgTyEBCA8qiTXhIgQIAAAQI1CghANWJqigABAgQIEMhDQADKo056SYAAAQIECNQoIADViKkpAgQIECBAIA8BASiPOuklAQIECBAgUKOAAFQjpqYIECBAgACBPAQEoDzqpJcECBAgQIBAjQICUI2YmiJAgAABAgTyEBCA8qiTXhIgQIAAAQI1CghANWJqigABAgQIEMhDQADKo056SYAAAQIECNQoIADViKkpAgQIECBAIA8BASiPOuklAQIECBAgUKOAAFQjpqYIECBAgACBPAQEoDzqpJcECBAgQIBAjQICUI2YmiJAgAABAgTyEBCA8qiTXhIgQIAAAQI1CghANWJqigABAgQIEMhDQADKo056SYAAAQIECNQoIADViKkpAgQIECBAIA8BASiPOuklAQIECBAgUKOAAFQjpqYIECBAgACBPAQEoDzqpJcECBAgQIBAjQICUI2YmiJAgAABAgTyEBCA8qiTXhIgQIAAAQI1CoypsS1NEahNYMXy5WnVwttS94LZtbU5Ug0N9Pem5bOvSC2tbSO1yVq209e1NHWtWJEuvPDCWtobyUZmzZqVFixYkGXfly1blnpXtKalMy8dSbJatjXQ05VuueWW9OCDD9bS3kg2Mn/+/JHcnG2NQoGWgcYyCvulS4UL7Lzbk9PcBcvSmPFTspPomn9vat/2yam1rT2r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rlh6l89NC2/6SvV9TIg658qPpMd+cVqaf93/bTwkcXFa8cBvUs+iB9Kimy9OPUseTj1LH03zrvl0euzy/0pL7rwk9XWt7vuSu36YljSeE/PoZe9LKx+5qWrPbwQIECBQtoAAlFH946nRcZorrv2J6SRilveY+LR5a3qEmnjAYNyy/qMf/aiajf3kk09OL3vZy6oJT2Oai3iYYbzfnPF98PB/+9vfVg86/PWvf109DfrRRx9dM4P8ddddV20nPh/P74kjUdGfeJJ0PC06vsbcYDGlRSxxWiueLbTus4di6otXv/rV1XQX8cDDz372s4O7UG03glgsA309qXfZY9X3i2//Xpo046i004vPSB3b7ZG65tyRxj/54NS+7ZPTts98Q2qftGtafOs3GzPFPz/teNgHU8uYsWlpI/jE0rdiQeqaNzNNPfidqXP7vavX/EaAAAECZQsIQBnVP8LE//7v/6a77767mjk9ZlaPU2Ax19i6S1xTEzO5xxGVCE0xe3w8dTkC0+DpMAZ/7rnPfW51PVLMDfbJT36ymph00aJF1SoRSmJKjA3dDh/vN69JinnDYsqLwctDDz2UHnvssRRHquJhjTFFyPve977Bq6z3+86p09OiP1zcOJLz/dS549Oq8DN45f7uFal7wT2pb+XCtOyey6rwFEd7mmFq3C7PSu0Td06tHXk9nXnwGH1PgAABAvUJCED1WW71liIwxHU+EWjiYuiYCf7II4+sjuqsu/Ftt922eimCxuCnPG/oTq/f/OY31emvONoTp8HiVzNARGPNI03rbqv580te8pI0a9asdNddd6VoI45SDV5i2zHPV/MJ0HGaLGaDH7zEOnEUK5aB/tWn+uL7uM5nygFvbrzWlxZcf24VhOL15tLfs7xxF1vj6dLjplS/xkzYIU3e7zWNCVNXt9HSvva0IM3P+UqAAAECZQq4CHor133atD3TVReekzrGjh9yS92rVjSOqnx6yPfWfTGup3nve9+bvvWtb1WhJq7Puf3229fczbXu+pv6cxz5iclUP/7xj6dVq1alD3zgA9W1OhtqJy7Gbs40H2ErTouddNJJ1QSv696SH6fI4leciosjV+eff34VmJp3o8V2IqzF6bVYehY/UH2N3xb89vw08amvaISaV6eOKU9Jy+79RfVec1b4CDxt46emMRO2r97vXjA7LZ310zRut4PW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QIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9QgIQPU4aoUAAQIECBDISEAAyqhYukqAAAECBAjUIyAA1eOoFQIECBAgQCAjAQEoo2LpKgECBAgQIFCPgABUj6NWCBAgQIAAgYwEBKCMiqWrBAgQIECAQD0CAlA9jlohQIAAAQIEMhIQgDIqlq4SIECAAAEC9Qj8f04PvPs9gnhOAAAAAElFTkSuQmCC" /><!-- --></p>
 <p>Significant statistics above the conditional permutation mean are
 similarity clusters; those below it are dissimilarity/outliers. These
@@ -488,15 +493,15 @@ require substantially more draws than a short example provides.</p>
 variables explicitly; IDs and geometry never become forest attributes.
 Separate tables are joined by ID, not by row order. ID sets must match
 exactly; no row is silently dropped.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>fit_separate <span class="ot">&lt;-</span> <span class="fu">mlsas</span>(d<span class="sc">$</span>attributes, d<span class="sc">$</span>variables, d<span class="sc">$</span>id,</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="at">spatial=</span>d<span class="sc">$</span>spatial[<span class="fu">nrow</span>(d<span class="sc">$</span>spatial)<span class="sc">:</span><span class="dv">1</span>,], <span class="at">ntree=</span><span class="dv">20</span>, <span class="at">nperm=</span><span class="dv">199</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">seed=</span><span class="dv">2026</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>, <span class="at">progress=</span><span class="cn">FALSE</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">identical</span>(fit<span class="sc">$</span>similarity, fit_separate<span class="sc">$</span>similarity) <span class="sc">||</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>          <span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(<span class="fu">unname</span>(<span class="fu">as.vector</span>(fit<span class="sc">$</span>similarity)),</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>                           <span class="fu">unname</span>(<span class="fu">as.vector</span>(fit_separate<span class="sc">$</span>similarity)))))</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>w_rook <span class="ot">&lt;-</span> <span class="fu">mlsas_weights</span>(d<span class="sc">$</span>data, <span class="at">id=</span>d<span class="sc">$</span>id, <span class="at">contiguity=</span><span class="st">&quot;rook&quot;</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>fit_weights <span class="ot">&lt;-</span> <span class="fu">mlsas</span>(d<span class="sc">$</span>attributes, d<span class="sc">$</span>variables, d<span class="sc">$</span>id, <span class="at">weights=</span>w_rook,</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="at">ntree=</span><span class="dv">20</span>, <span class="at">nperm=</span><span class="dv">199</span>, <span class="at">seed=</span><span class="dv">2026</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>, <span class="at">progress=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>fit_separate <span class="ot">&lt;-</span> <span class="fu">mlsas</span>(d<span class="sc">$</span>attributes, d<span class="sc">$</span>variables, d<span class="sc">$</span>id,</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="at">spatial=</span>d<span class="sc">$</span>spatial[<span class="fu">nrow</span>(d<span class="sc">$</span>spatial)<span class="sc">:</span><span class="dv">1</span>,], <span class="at">ntree=</span><span class="dv">20</span>, <span class="at">nperm=</span><span class="dv">199</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">seed=</span><span class="dv">2026</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>, <span class="at">progress=</span><span class="cn">FALSE</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">identical</span>(fit<span class="sc">$</span>similarity, fit_separate<span class="sc">$</span>similarity) <span class="sc">||</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>          <span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(<span class="fu">unname</span>(<span class="fu">as.vector</span>(fit<span class="sc">$</span>similarity)),</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>                           <span class="fu">unname</span>(<span class="fu">as.vector</span>(fit_separate<span class="sc">$</span>similarity)))))</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>w_rook <span class="ot">&lt;-</span> <span class="fu">mlsas_weights</span>(d<span class="sc">$</span>data, <span class="at">id=</span>d<span class="sc">$</span>id, <span class="at">contiguity=</span><span class="st">&quot;rook&quot;</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>fit_weights <span class="ot">&lt;-</span> <span class="fu">mlsas</span>(d<span class="sc">$</span>attributes, d<span class="sc">$</span>variables, d<span class="sc">$</span>id, <span class="at">weights=</span>w_rook,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="at">ntree=</span><span class="dv">20</span>, <span class="at">nperm=</span><span class="dv">199</span>, <span class="at">seed=</span><span class="dv">2026</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>, <span class="at">progress=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Attributes may be a data.frame or tibble. Numeric columns are
 continuous; factor columns are nominal; ordered factors retain their
 declared order. Convert character categories explicitly. Missing or
@@ -505,25 +510,25 @@ levels in this release. Geometry must be valid.</p>
 </div>
 <div id="reuse-the-learned-representation" class="section level2">
 <h2>Reuse the learned representation</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>s <span class="ot">&lt;-</span> fit<span class="sc">$</span>similarity</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>o <span class="ot">&lt;-</span> <span class="fu">mlsas_stat</span>(s, w_rook)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>upper <span class="ot">&lt;-</span> <span class="fu">mlsas_local_test</span>(o, <span class="at">alternative=</span><span class="st">&quot;greater&quot;</span>, <span class="at">nperm=</span><span class="dv">199</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>                         <span class="at">seed=</span><span class="dv">8</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>, <span class="at">progress=</span><span class="cn">FALSE</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(upper))</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;        id statistic permutation_mean permutation_sd p_high p_low p_value</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 1 area_01  2.087815        1.1090139      0.2941479  0.010 1.000   0.010</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 2 area_02  2.125092        1.0627376      0.2500930  0.005 1.000   0.005</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 3 area_03  1.536329        0.9351707      0.1565759  0.005 1.000   0.005</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 4 area_04  1.769013        0.8805955      0.2618074  0.010 0.995   0.010</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; 5 area_05  1.832503        0.8165823      0.2324841  0.005 1.000   0.005</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; 6 area_06  1.230465        0.7938451      0.2155069  0.035 0.970   0.035</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;    p_adjusted     classification</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; 1 0.011250000 Similarity cluster</span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; 2 0.007826087 Similarity cluster</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; 3 0.007826087 Similarity cluster</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; 4 0.011250000 Similarity cluster</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; 5 0.007826087 Similarity cluster</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; 6 0.036000000 Similarity cluster</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>s <span class="ot">&lt;-</span> fit<span class="sc">$</span>similarity</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>o <span class="ot">&lt;-</span> <span class="fu">mlsas_stat</span>(s, w_rook)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>upper <span class="ot">&lt;-</span> <span class="fu">mlsas_local_test</span>(o, <span class="at">alternative=</span><span class="st">&quot;greater&quot;</span>, <span class="at">nperm=</span><span class="dv">199</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>                         <span class="at">seed=</span><span class="dv">8</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>, <span class="at">progress=</span><span class="cn">FALSE</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(upper))</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;        id statistic permutation_mean permutation_sd p_high p_low p_value</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; 1 area_01  2.087815        1.1090139      0.2941479  0.010 1.000   0.010</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; 2 area_02  2.125092        1.0627376      0.2500930  0.005 1.000   0.005</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; 3 area_03  1.536329        0.9351707      0.1565759  0.005 1.000   0.005</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; 4 area_04  1.769013        0.8805955      0.2618074  0.010 0.995   0.010</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; 5 area_05  1.832503        0.8165823      0.2324841  0.005 1.000   0.005</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; 6 area_06  1.230465        0.7938451      0.2155069  0.035 0.970   0.035</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;    p_adjusted     classification</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; 1 0.011250000 Similarity cluster</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; 2 0.007826087 Similarity cluster</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 3 0.007826087 Similarity cluster</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 4 0.011250000 Similarity cluster</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 5 0.007826087 Similarity cluster</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; 6 0.036000000 Similarity cluster</span></span></code></pre></div>
 <p>The forest is not refitted during permutation inference. Global
 inference jointly relabels rows and columns; local conditional inference
 fixes the focal profile. Total local inference is available with
@@ -558,8 +563,8 @@ expected to reproduce that exact stream automatically.</p>
 and uses additional memory. A fixed seed alone does not guarantee
 equality across engines, languages or package versions. The paper’s full
 simulation campaign ran on AWS. This small example does not reproduce
-that campaign. See the repository reproduction documentation for full
-settings, archived runtimes and completed validation scope.</p>
+that campaign. The paper-reproduction repository will be linked
+separately when available.</p>
 </div>
 
 

@@ -1,6 +1,6 @@
 {
-  "date": "2026-10-01",
-  "version": "0.1.0",
+  "date": "2026-10-02",
+  "version": "0.1.1",
   "R": "4.5.2",
   "platform": "macOS arm64",
   "R_CMD_check": {
@@ -35,7 +35,7 @@
     "Parallelism applies to proximity calculation only; fitting/inference serial",
     "No analytic normal-approximation test"
   ],
-  "publication": "GitHub distribution: https://github.com/geowhk/ML-SAS-R; not submitted to CRAN",
+  "publication": "GitHub distribution: https://github.com/geowhk/ml-sas-r; not submitted to CRAN",
   "authors": [
     "Woohyung Kim",
     "Sang-Il Lee"
@@ -69,5 +69,6 @@
     ],
     "serial_parallel_comparison": "Comparison command ran without reported errors; literal all.equal() result was not supplied.",
     "R_CMD_check": "Not run on Windows; this is a user-reported smoke test."
-  }
+  },
+  "prior_numerical_validation_version": "0.1.0; computational R source unchanged in 0.1.1"
 }

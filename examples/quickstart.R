@@ -1,5 +1,5 @@
 # ML-SAS: small mixed-data example
-# Install first: remotes::install_github("geowhk/ML-SAS-R")
+# Install first: remotes::install_github("geowhk/ml-sas-r")
 library(mlsas)
 d <- mlsas_example("mixed")
 # Reduced counts make this a quick introduction.

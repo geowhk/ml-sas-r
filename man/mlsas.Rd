@@ -1,7 +1,7 @@
 \name{mlsas}
 \alias{mlsas}
 \title{Run an ML-SAS Analysis}
-\description{Fit attribute similarity and perform global and local spatial association tests. Default settings follow the empirical analysis in the accompanying paper.}
+\description{Fit attribute similarity and perform global and local spatial autocorrelation tests. Default settings follow the empirical analysis in the accompanying paper.}
 \usage{
 mlsas(data, variables, id, spatial = NULL, weights = NULL, 
     contiguity = "queen", style = "W", proximity = "path", ntree = 1000L, 
