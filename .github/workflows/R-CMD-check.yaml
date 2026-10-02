@@ -50,7 +50,9 @@ jobs:
           tinytex::tlmgr_install(c("inconsolata", "helvetic", "times", "makeindex", "fancyvrb", "fancyhdr", "upquote"))
           bins <- list.files(file.path(tinytex::tinytex_root(), "bin"),
                              pattern = "^pdflatex(\\.exe)?$", recursive = TRUE, full.names = TRUE)
-          stopifnot(length(bins) > 0L)
+          platform <- if (.Platform$OS.type == "windows") "windows" else "darwin"
+          bins <- bins[grepl(platform, dirname(bins), fixed = TRUE)]
+          stopifnot(length(bins) == 1L)
           cat(unique(dirname(bins)), file = Sys.getenv("GITHUB_PATH"), sep = "\n", append = TRUE)
       - uses: r-lib/actions/check-r-package@v2
         with:
