@@ -58,7 +58,7 @@ jobs:
             tlmgr <- Sys.which("tlmgr")
           }
           stopifnot(nzchar(tlmgr))
-          status <- system2(shQuote(tlmgr), c("install", "inconsolata", "helvetic", "times", "makeindex", "fancyvrb", "fancyhdr", "upquote"))
+          status <- system2(tlmgr, c("install", "inconsolata", "helvetic", "times", "makeindex", "fancyvrb", "fancyhdr", "upquote"))
           stopifnot(status == 0L)
       - uses: r-lib/actions/check-r-package@v2
         with:
