@@ -62,6 +62,12 @@ neighbours must be resolved before analysis; nominal factors support up to 31 le
 - [Example R script](examples/quickstart.R)
 - In R: `?mlsas`
 
+## Paper and reproduction
+
+The accompanying paper is accepted for publication in *Geographical Analysis*.
+[Paper overview and reproduction code](https://github.com/geowhk/ml-sas-paper).
+The published article link will be added when available.
+
 ## Authors and license
 
 Woohyung Kim and Sang-Il Lee.
