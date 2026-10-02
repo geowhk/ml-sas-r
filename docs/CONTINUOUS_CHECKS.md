@@ -15,3 +15,10 @@ and confirm **Run workflow**. No Windows computer or local virtual machine is ne
 Open a completed run to inspect each operating system. Download its check artifact
 for the complete logs. These hosted checks do not establish compatibility with every
 R version or every Windows/macOS configuration, and do not constitute CRAN acceptance.
+
+## Verified run
+
+On 2026-10-02, [this run](https://github.com/geowhk/ml-sas-r/actions/runs/36951866766)
+checked commit `9b0a283` with R 4.6.1 on macOS arm64 and Windows x64. Both
+completed with **0 errors, 0 warnings and 0 notes**, including PDF manual checks.
+The macOS job succeeded on retry after an external download returned HTTP 403.

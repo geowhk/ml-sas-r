@@ -23,7 +23,6 @@
     "elapsed_seconds": 3.009
   },
   "not_tested": [
-    "Windows R CMD check and full regression suite",
     "Linux installations",
     "Full-scale paper simulation through the new package",
     "Independent Python implementation"
@@ -70,5 +69,34 @@
     "serial_parallel_comparison": "Comparison command ran without reported errors; literal all.equal() result was not supplied.",
     "R_CMD_check": "Not run on Windows; this is a user-reported smoke test."
   },
-  "prior_numerical_validation_version": "0.1.0; computational R source unchanged in 0.1.1"
+  "prior_numerical_validation_version": "0.1.0; computational R source unchanged in 0.1.1",
+  "hosted_R_CMD_check": {
+    "date": "2026-10-02",
+    "version": "0.1.1",
+    "commit": "9b0a283",
+    "run_url": "https://github.com/geowhk/ml-sas-r/actions/runs/36951866766",
+    "R": "4.6.1",
+    "macOS": {
+      "platform": "aarch64-apple-darwin23",
+      "OS": "macOS Tahoe 26.6.2",
+      "errors": 0,
+      "warnings": 0,
+      "notes": 0
+    },
+    "Windows": {
+      "platform": "x86_64-w64-mingw32",
+      "OS_reported_by_R": "Windows Server 2022 x64 (build 26100)",
+      "errors": 0,
+      "warnings": 0,
+      "notes": 0
+    },
+    "scope": [
+      "Installation and namespace checks",
+      "Examples",
+      "Complete regression.R including two-worker PSOCK equality",
+      "Vignette rebuild",
+      "PDF manual including index"
+    ],
+    "note": "macOS succeeded on retry after an external TinyTeX download API returned HTTP 403."
+  }
 }
