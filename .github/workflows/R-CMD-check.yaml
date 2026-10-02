@@ -46,8 +46,20 @@ jobs:
         with:
           tinytex: true
       - name: Install PDF manual fonts
-        shell: bash
-        run: tlmgr install inconsolata helvetic times makeindex fancyvrb fancyhdr upquote
+        shell: Rscript {0}
+        run: |
+          if (.Platform$OS.type == "windows") {
+            texbin <- file.path(Sys.getenv("APPDATA"), "TinyTeX", "bin", "windows")
+            stopifnot(file.exists(file.path(texbin, "pdflatex.exe")))
+            Sys.setenv(PATH = paste(texbin, Sys.getenv("PATH"), sep = .Platform$path.sep))
+            cat(texbin, file = Sys.getenv("GITHUB_PATH"), sep = "\n", append = TRUE)
+            tlmgr <- file.path(texbin, "tlmgr.bat")
+          } else {
+            tlmgr <- Sys.which("tlmgr")
+          }
+          stopifnot(nzchar(tlmgr))
+          status <- system2(shQuote(tlmgr), c("install", "inconsolata", "helvetic", "times", "makeindex", "fancyvrb", "fancyhdr", "upquote"))
+          stopifnot(status == 0L)
       - uses: r-lib/actions/check-r-package@v2
         with:
           args: 'character()'
