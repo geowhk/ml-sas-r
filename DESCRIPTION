@@ -1,7 +1,7 @@
 Package: mlsas
 Type: Package
 Title: A Machine-Learning-Based Spatial Autocorrelation Statistic
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
     person("Woohyung", "Kim", email = "whk3423@snu.ac.kr", role = c("aut", "cre")),
     person("Sang-Il", "Lee", role = "aut"))
@@ -10,12 +10,13 @@ Maintainer: Woohyung Kim <whk3423@snu.ac.kr>
 Description: Learns attribute similarity with an unsupervised random forest and
     computes global and local spatial autocorrelation statistics. Provides total
     and conditional Monte Carlo randomization inference, spatial weights,
-    small synthetic examples, and explicit input validation.
+    small synthetic examples, and explicit input validation. Implements the method
+    of Kim and Lee (2026) <doi:10.1111/gean.70062>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 4.2.0)
 Imports: randomForest, Matrix, sf, spdep, parallel, stats, graphics, utils
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
-URL: https://github.com/geowhk/ml-sas-r
+URL: https://github.com/geowhk/ml-sas-r, https://doi.org/10.1111/gean.70062
 BugReports: https://github.com/geowhk/ml-sas-r/issues

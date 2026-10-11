@@ -1,6 +1,6 @@
 {
-  "date": "2026-10-02",
-  "version": "0.1.1",
+  "date": "2026-10-11",
+  "version": "0.1.2",
   "R": "4.5.2",
   "platform": "macOS arm64",
   "R_CMD_check": {
@@ -69,7 +69,7 @@
     "serial_parallel_comparison": "Comparison command ran without reported errors; literal all.equal() result was not supplied.",
     "R_CMD_check": "Not run on Windows; this is a user-reported smoke test."
   },
-  "prior_numerical_validation_version": "0.1.0; computational R source unchanged in 0.1.1",
+  "prior_numerical_validation_version": "0.1.0; computational R source unchanged through 0.1.2",
   "hosted_R_CMD_check": {
     "date": "2026-10-02",
     "version": "0.1.1",
@@ -98,5 +98,14 @@
       "PDF manual including index"
     ],
     "note": "macOS succeeded on retry after an external TinyTeX download API returned HTTP 403."
-  }
+  },
+  "paper": {
+    "doi": "10.1111/gean.70062",
+    "online_publication_date": "2026-10-09",
+    "journal": "Geographical Analysis",
+    "volume": "58",
+    "issue": "4",
+    "article_number": "e70062"
+  },
+  "citation_check": "PASS; installed package citation resolves to the published paper"
 }

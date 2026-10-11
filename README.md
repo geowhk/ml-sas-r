@@ -64,9 +64,10 @@ neighbours must be resolved before analysis; nominal factors support up to 31 le
 
 ## Paper and reproduction
 
-The accompanying paper is accepted for publication in *Geographical Analysis*.
+Kim, W., & Lee, S.-I. (2026). ML-SAS: A Machine-Learning-Based Spatial Autocorrelation Statistic for Mixed-Type Data. *Geographical Analysis*, **58**(4), e70062. https://doi.org/10.1111/gean.70062
+
 [Paper overview and reproduction code](https://github.com/geowhk/ml-sas-paper).
-The published article link will be added when available.
+In R, use `citation("mlsas")` for the paper citation.
 
 ## Authors and license
 

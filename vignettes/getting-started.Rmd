@@ -112,4 +112,12 @@ Similarity storage is quadratic in region count. Tests stream 256-draw batches;
 `keep=TRUE` stores the full distribution and uses additional memory. A fixed seed
 alone does not guarantee equality across engines, languages or package versions.
 The paper's full simulation campaign ran on AWS. This small example does not
-reproduce that campaign. The paper-reproduction repository will be linked separately when available.
+reproduce that campaign. See the [paper-reproduction repository](https://github.com/geowhk/ml-sas-paper) for that workflow.
+
+## Reference
+
+Kim, W., & Lee, S.-I. (2026). ML-SAS: A Machine-Learning-Based Spatial Autocorrelation Statistic for Mixed-Type Data. *Geographical Analysis*, **58**(4), e70062. https://doi.org/10.1111/gean.70062
+
+```{r, eval=FALSE}
+citation("mlsas")
+```

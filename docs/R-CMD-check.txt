@@ -1,4 +1,4 @@
-* using log directory ‘[check directory]/mlsas.Rcheck’
+* using log directory ‘<CHECK_DIR>/mlsas.Rcheck’
 * using R version 4.5.2 (2025-10-31)
 * using platform: aarch64-apple-darwin20
 * R was compiled by
@@ -8,7 +8,7 @@
 * using session charset: UTF-8
 * checking for file ‘mlsas/DESCRIPTION’ ... OK
 * checking extension type ... Package
-* this is package ‘mlsas’ version ‘0.1.1’
+* this is package ‘mlsas’ version ‘0.1.2’
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... OK
@@ -52,14 +52,11 @@
 * checking files in ‘vignettes’ ... OK
 * checking examples ... OK
 * checking for unstated dependencies in ‘tests’ ... OK
-* checking tests ...
+* checking tests ... OK
   Running ‘regression.R’
- OK
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes ... OK
 * checking re-building of vignette outputs ... OK
 * checking PDF version of manual ... OK
 * DONE
-
 Status: OK
-

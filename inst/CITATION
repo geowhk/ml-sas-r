@@ -1,0 +1,12 @@
+bibentry(
+  bibtype = "Article",
+  title = "ML-SAS: A Machine-Learning-Based Spatial Autocorrelation Statistic for Mixed-Type Data",
+  author = c(person("Woohyung", "Kim"), person("Sang-Il", "Lee")),
+  year = "2026",
+  journal = "Geographical Analysis",
+  volume = "58",
+  number = "4",
+  pages = "e70062",
+  doi = "10.1111/gean.70062",
+  url = "https://doi.org/10.1111/gean.70062"
+)

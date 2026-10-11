@@ -391,7 +391,7 @@ inference and BH adjustment at 0.05.</p>
 <span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
 <span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a><span class="co">#&gt; $settings$version</span></span>
-<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="co">#&gt; [1] &quot;0.1.1&quot;</span></span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="co">#&gt; [1] &quot;0.1.2&quot;</span></span>
 <span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a><span class="co">#&gt; $settings$R</span></span>
 <span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a><span class="co">#&gt; [1] &quot;R version 4.5.2 (2025-10-31)&quot;</span></span>
@@ -423,7 +423,7 @@ inference and BH adjustment at 0.05.</p>
 <span id="cb2-67"><a href="#cb2-67" tabindex="-1"></a><span class="co">#&gt; [1] &quot;4.7.1.2&quot;</span></span>
 <span id="cb2-68"><a href="#cb2-68" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb2-69"><a href="#cb2-69" tabindex="-1"></a><span class="co">#&gt; $similarity$elapsed</span></span>
-<span id="cb2-70"><a href="#cb2-70" tabindex="-1"></a><span class="co">#&gt; [1] 0.248</span></span>
+<span id="cb2-70"><a href="#cb2-70" tabindex="-1"></a><span class="co">#&gt; [1] 0.264</span></span>
 <span id="cb2-71"><a href="#cb2-71" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb2-72"><a href="#cb2-72" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb2-73"><a href="#cb2-73" tabindex="-1"></a><span class="co">#&gt; $inference</span></span>
@@ -461,7 +461,7 @@ inference and BH adjustment at 0.05.</p>
 <span id="cb2-105"><a href="#cb2-105" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mersenne-Twister&quot; &quot;Inversion&quot;        &quot;Rejection&quot;       </span></span>
 <span id="cb2-106"><a href="#cb2-106" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb2-107"><a href="#cb2-107" tabindex="-1"></a><span class="co">#&gt; $inference$version</span></span>
-<span id="cb2-108"><a href="#cb2-108" tabindex="-1"></a><span class="co">#&gt; [1] &quot;0.1.1&quot;</span></span>
+<span id="cb2-108"><a href="#cb2-108" tabindex="-1"></a><span class="co">#&gt; [1] &quot;0.1.2&quot;</span></span>
 <span id="cb2-109"><a href="#cb2-109" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">as.data.frame</span>(fit<span class="sc">$</span>local))</span>
 <span id="cb2-110"><a href="#cb2-110" tabindex="-1"></a><span class="co">#&gt;        id statistic permutation_mean permutation_sd p_high p_low p_value</span></span>
 <span id="cb2-111"><a href="#cb2-111" tabindex="-1"></a><span class="co">#&gt; 1 area_01  2.003910        1.0572564      0.2544742  0.005 1.000    0.01</span></span>
@@ -563,8 +563,15 @@ expected to reproduce that exact stream automatically.</p>
 and uses additional memory. A fixed seed alone does not guarantee
 equality across engines, languages or package versions. The paper’s full
 simulation campaign ran on AWS. This small example does not reproduce
-that campaign. The paper-reproduction repository will be linked
-separately when available.</p>
+that campaign. See the <a href="https://github.com/geowhk/ml-sas-paper">paper-reproduction
+repository</a> for that workflow.</p>
+</div>
+<div id="reference" class="section level2">
+<h2>Reference</h2>
+<p>Kim, W., &amp; Lee, S.-I. (2026). ML-SAS: A Machine-Learning-Based
+Spatial Autocorrelation Statistic for Mixed-Type Data. <em>Geographical
+Analysis</em>, <strong>58</strong>(4), e70062. <a href="https://doi.org/10.1111/gean.70062" class="uri">https://doi.org/10.1111/gean.70062</a></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;mlsas&quot;</span>)</span></code></pre></div>
 </div>
 
 
