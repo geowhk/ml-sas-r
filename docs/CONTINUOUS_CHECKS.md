@@ -33,4 +33,21 @@ manager before installing PDF fonts; the run history above records subsequent re
 `R-CMD-check.txt` preserves the local check results, with the machine-specific
 log directory replaced by `<CHECK_DIR>`. Before publishing a new report, inspect
 it for local user paths, temporary directories and credentials. This redaction
-changes no check outcomes. Older Git commits can retain previously published paths.
+changes no check outcomes. The maintained branch history was also sanitized on 13 October 2026.
+
+## Synchronizing after the history cleanup
+
+On 13 October 2026, the main branch history was rewritten to remove a local
+machine path from historical check logs. Package code, version 0.1.2, and download
+archives were preserved. Normal GitHub package installation is unchanged.
+
+For an existing Git checkout, the safest option is to keep the old directory
+(including any local work) and clone into a new directory:
+
+```sh
+git clone https://github.com/geowhk/ml-sas-r.git ml-sas-r-clean
+```
+
+Transfer only your own changes if needed. Do not merge the old branch history
+back into main. Commit hashes recorded in older validation reports identify the
+original runs; their results remain historical evidence rather than new checks.
