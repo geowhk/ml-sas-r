@@ -58,6 +58,8 @@ jobs:
             tlmgr <- Sys.which("tlmgr")
           }
           stopifnot(nzchar(tlmgr))
+          status <- system2(tlmgr, c("update", "--self"))
+          stopifnot(status == 0L)
           status <- system2(tlmgr, c("install", "inconsolata", "helvetic", "times", "makeindex", "fancyvrb", "fancyhdr", "upquote"))
           stopifnot(status == 0L)
       - uses: r-lib/actions/check-r-package@v2
