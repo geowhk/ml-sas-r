@@ -51,3 +51,15 @@ git clone https://github.com/geowhk/ml-sas-r.git ml-sas-r-clean
 Transfer only your own changes if needed. Do not merge the old branch history
 back into main. Commit hashes recorded in older validation reports identify the
 original runs; their results remain historical evidence rather than new checks.
+
+## Validation after history cleanup
+
+On 13 October 2026, [run 38333502649](https://github.com/geowhk/ml-sas-r/actions/runs/38333502649)
+checked the sanitized commit `bcae4bd` (package 0.1.2). Both macOS and Windows
+completed R CMD check with Status: OK, including tests, vignette rebuilding and
+PDF manual generation (zero errors, warnings and notes).
+
+The cleanup removes the path from the maintained branch and fresh clones.
+GitHub can still retain unreachable old commit URLs, and existing clones are
+not remotely erased. Removing server-retained copies requires GitHub Support;
+a force push alone does not guarantee their deletion.

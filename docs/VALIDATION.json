@@ -107,5 +107,24 @@
     "issue": "4",
     "article_number": "e70062"
   },
-  "citation_check": "PASS; installed package citation resolves to the published paper"
+  "citation_check": "PASS; installed package citation resolves to the published paper",
+  "post_history_cleanup_check": {
+    "date": "2026-10-13",
+    "version": "0.1.2",
+    "commit": "bcae4bd565420b497b26e5341c66f6f12b6cf605",
+    "run_url": "https://github.com/geowhk/ml-sas-r/actions/runs/38333502649",
+    "macOS": {
+      "status": "OK",
+      "errors": 0,
+      "warnings": 0,
+      "notes": 0
+    },
+    "Windows": {
+      "status": "OK",
+      "errors": 0,
+      "warnings": 0,
+      "notes": 0
+    },
+    "scope": "Full R CMD check including regression tests, vignette rebuild and PDF manual"
+  }
 }
